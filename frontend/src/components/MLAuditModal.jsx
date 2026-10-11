@@ -1,6 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export default function MLAuditModal({ isOpen, onClose, evalData, onAutoFix, isFixing }) {
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose?.();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen || !evalData) return null;
 
   const { overallScore = 90, metrics = {}, badges = [], recommendations = [] } = evalData;
@@ -13,32 +24,41 @@ export default function MLAuditModal({ isOpen, onClose, evalData, onAutoFix, isF
   };
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.65)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 9999,
-      backdropFilter: 'blur(4px)'
-    }}>
-      <div style={{
-        backgroundColor: '#fff',
-        borderRadius: '16px',
-        width: '90%',
-        maxWidth: '680px',
-        maxHeight: '90vh',
-        overflowY: 'auto',
-        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-        border: '1px solid #e5e7eb',
+    <div
+      onClick={onClose}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.65)',
         display: 'flex',
-        flexDirection: 'column',
-        fontFamily: 'system-ui, -apple-system, sans-serif'
-      }}>
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 9999,
+        backdropFilter: 'blur(4px)'
+      }}
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="ml-audit-modal-title"
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          backgroundColor: '#fff',
+          borderRadius: '16px',
+          width: '90%',
+          maxWidth: '680px',
+          maxHeight: '90vh',
+          overflowY: 'auto',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+          border: '1px solid #e5e7eb',
+          display: 'flex',
+          flexDirection: 'column',
+          fontFamily: 'system-ui, -apple-system, sans-serif'
+        }}
+      >
         {/* Modal Header */}
         <div style={{
           padding: '1.5rem 2rem',
@@ -50,7 +70,7 @@ export default function MLAuditModal({ isOpen, onClose, evalData, onAutoFix, isF
         }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1c1917', margin: 0 }}>
+              <h2 id="ml-audit-modal-title" style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1c1917', margin: 0 }}>
                 ML Quality & WCAG Accessibility Audit
               </h2>
             </div>
@@ -59,6 +79,7 @@ export default function MLAuditModal({ isOpen, onClose, evalData, onAutoFix, isF
             </p>
           </div>
           <button
+            type="button"
             onClick={onClose}
             style={{
               background: 'none',

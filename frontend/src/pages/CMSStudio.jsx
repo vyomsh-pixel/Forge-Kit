@@ -99,7 +99,15 @@ export default function CMSStudio() {
     // Save to localStorage immediately so F5 refresh preserves changes 100% reliably
     const cacheKey = `cms_elements_${sectionId || pageName}`;
     const updatedList = elements.map(e => e.fieldId === element.fieldId ? { ...e, content: element.content } : e);
-    localStorage.setItem(cacheKey, JSON.stringify(updatedList));
+    try {
+      localStorage.setItem(cacheKey, JSON.stringify(updatedList));
+      const latestRaw = localStorage.getItem('forgekit_latest_session');
+      if (latestRaw) {
+        const latestParsed = JSON.parse(latestRaw);
+        latestParsed.elements = updatedList;
+        localStorage.setItem('forgekit_latest_session', JSON.stringify(latestParsed));
+      }
+    } catch {}
 
     try {
       const { data } = await updateCMSElement(element.fieldId, {
@@ -126,9 +134,9 @@ export default function CMSStudio() {
     const s = search.toLowerCase();
     return elements.filter(
       (el) =>
-        el.elementName.toLowerCase().includes(s) ||
-        el.fieldId.toLowerCase().includes(s) ||
-        el.content.toLowerCase().includes(s)
+        (el.elementName || '').toLowerCase().includes(s) ||
+        (el.fieldId || '').toLowerCase().includes(s) ||
+        (el.content || '').toLowerCase().includes(s)
     );
   }, [elements, search]);
 
@@ -137,11 +145,27 @@ export default function CMSStudio() {
     // If we have the real AI-generated JSX stored in MongoDB Section, use it!
     if (sectionMeta?.jsx) {
       let liveJsx = sectionMeta.jsx;
-      elements.forEach(el => {
-        if (el.fieldId && el.content) {
-          // Replace matching text inside the component if updated
-          const idRegex = new RegExp(`(<[^>]+(?:id=\\{ids\\.[^}]+\\}|id="${el.fieldId}")[^>]*>)([^<]*)(<\\/)`, 'gi');
-          liveJsx = liveJsx.replace(idRegex, `$1${el.content}$3`);
+
+      // Map each fieldId to its symbolic key in `const ids = { key: "fieldId" }`
+      const fieldIdToKey = {};
+      const idsBlockMatch = liveJsx.match(/const\s+ids\s*=\s*\{([\s\S]*?)\}/);
+      if (idsBlockMatch) {
+        const pairRegex = /([A-Za-z_$][\w$]*)\s*:\s*["']([^"']+)["']/g;
+        let m;
+        while ((m = pairRegex.exec(idsBlockMatch[1])) !== null) {
+          fieldIdToKey[m[2]] = m[1];
+        }
+      }
+
+      elements.forEach((el) => {
+        if (el.fieldId && el.content !== undefined && el.content !== null) {
+          const escapedId = String(el.fieldId).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const symKey = fieldIdToKey[el.fieldId];
+          const idPattern = symKey
+            ? `(?:id=\\{ids\\.${symKey}\\}|id=["']${escapedId}["'])`
+            : `id=["']${escapedId}["']`;
+          const idRegex = new RegExp(`(<[^>]+\\b${idPattern}[^>]*>)([^<]*)(<\\/)`, 'gi');
+          liveJsx = liveJsx.replace(idRegex, (_, open, _oldText, close) => open + el.content + close);
         }
       });
       return liveJsx;
@@ -349,6 +373,13 @@ ${cardItemsJSX}
                     Desktop
                   </button>
                   <button 
+                    className={`viewport-btn ${viewport === 'tablet' ? 'active' : ''}`} 
+                    onClick={() => setViewport('tablet')} 
+                    title="Tablet"
+                  >
+                    Tablet
+                  </button>
+                  <button 
                     className={`viewport-btn ${viewport === 'mobile' ? 'active' : ''}`} 
                     onClick={() => setViewport('mobile')} 
                     title="Mobile"
@@ -361,7 +392,7 @@ ${cardItemsJSX}
           </header>
 
           <div className="stage-body">
-            {tab === 'preview' && <PreviewSandbox jsx={generatedJSX} css="" viewport={viewport} />}
+            {tab === 'preview' && <PreviewSandbox jsx={generatedJSX} css={sectionMeta?.css || ''} viewport={viewport} />}
             {tab === 'json' && (
               <CodeViewer 
                 code={JSON.stringify(elements, null, 2)} 

@@ -6,14 +6,16 @@ const VIEWPORTS = {
   mobile: '375px'
 };
 
-function buildPreviewHTML(jsx, css) {
+export function buildPreviewHTML(jsx, css) {
   if (!jsx) return '';
 
   let code = jsx;
 
-  // Strip markdown fences and normalize literal escaped characters
+  // Strip markdown fences
   code = code.replace(/^```(?:jsx|javascript|react)?\s*/i, '').replace(/\s*```$/i, '').trim();
-  code = code.replace(/\\n/g, '\n').replace(/\\r/g, '').replace(/\\t/g, '  ').replace(/\\"/g, '"');
+  if (!code.includes('\n') && code.includes('\\n')) {
+    code = code.replace(/\\n/g, '\n').replace(/\\r/g, '').replace(/\\t/g, '  ').replace(/\\"/g, '"');
+  }
 
   // Strip imports
   code = code.replace(/^\s*import\b.*$/gm, '');

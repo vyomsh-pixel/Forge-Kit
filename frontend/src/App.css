@@ -1118,4 +1118,547 @@ body {
   .blueprint-header h2 {
     font-size: 2.2rem;
   }
+
+  .navbar-account-controls {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 }
+
+/* ── Navbar Account & Data Controls ── */
+.navbar-account-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.navbar-user-pill {
+  font: 700 0.68rem system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: var(--accent-subtle);
+  color: var(--accent-color);
+  padding: 0.32rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid rgba(42, 111, 111, 0.25);
+}
+
+.navbar-ctrl-btn {
+  padding: 0.35rem 0.68rem;
+  font: 700 0.66rem system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.navbar-ctrl-btn:hover {
+  background: var(--text-main);
+  color: var(--bg-parchment);
+  border-color: var(--text-main);
+}
+
+.navbar-ctrl-btn.danger {
+  color: #991b1b;
+  border-color: #fecaca;
+  background: #fff5f5;
+}
+
+.navbar-ctrl-btn.danger:hover {
+  background: #991b1b;
+  color: #ffffff;
+  border-color: #991b1b;
+}
+
+.navbar-toast {
+  font: 700 0.68rem system-ui, sans-serif;
+  color: #0f766e;
+  background: #ccfbf1;
+  padding: 0.28rem 0.6rem;
+  border-radius: 4px;
+}
+
+/* ── Studio Auth & Pre-Use Consent Gate ── */
+.auth-gate-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.2rem;
+  background-color: var(--bg-parchment);
+  background-image: radial-gradient(#cfc8b8 1.2px, transparent 1.2px);
+  background-size: 18px 18px;
+}
+
+.auth-gate-card {
+  width: 100%;
+  max-width: 520px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: 7px 7px 0px #d0ddd8;
+  padding: 2rem 2.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.auth-gate-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.auth-gate-title {
+  font-size: 2rem;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  margin: 0.15rem 0;
+  color: var(--text-main);
+}
+
+.auth-gate-title em {
+  color: var(--accent-color);
+  font-weight: 400;
+}
+
+.auth-gate-subtitle {
+  font: 0.85rem/1.45 system-ui, sans-serif;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.auth-gate-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.consent-gate-box {
+  border: 1px solid var(--border-color);
+  background: var(--bg-muted);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  margin: 0.2rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.consent-gate-legend {
+  font: 700 0.65rem system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-color);
+  padding: 0 0.35rem;
+}
+
+.consent-checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font: 0.8rem/1.45 system-ui, sans-serif;
+  color: var(--text-main);
+  cursor: pointer;
+}
+
+.consent-checkbox-row input[type="checkbox"] {
+  margin-top: 0.2rem;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent-color);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.consent-legal-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  padding-top: 0.35rem;
+  border-top: 1px dashed var(--border-color);
+  font: 600 0.72rem system-ui, sans-serif;
+  color: var(--text-muted);
+}
+
+.legal-link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font: 700 0.72rem system-ui, sans-serif;
+  color: var(--accent-color);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font: 700 0.64rem system-ui, sans-serif;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+  margin: 0.1rem 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.auth-divider span {
+  padding: 0 0.75rem;
+}
+
+.guest-architect-btn {
+  padding: 0.75rem 1.2rem;
+  border: 1.5px solid var(--accent-color);
+  border-radius: 6px;
+  background: var(--bg-muted);
+  color: var(--accent-color);
+  font: 700 0.76rem system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.guest-architect-btn:hover:not(:disabled) {
+  background: var(--accent-subtle);
+}
+
+.guest-architect-btn:disabled {
+  border-color: var(--border-color);
+  color: var(--text-faint);
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+/* ── Architectural Blueprint Grid & Laser Drafting Loading Screen ── */
+.blueprint-loader-overlay {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background-color: #ebe7dc;
+  background-image:
+    linear-gradient(to right, rgba(42, 111, 111, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(42, 111, 111, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.blueprint-loader-card {
+  width: 100%;
+  max-width: 460px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: 6px 6px 0px #d0ddd8;
+  padding: 1.75rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.blueprint-loader-badge {
+  font: 700 0.64rem system-ui, sans-serif;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-color);
+  background: var(--accent-subtle);
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.blueprint-svg-stage {
+  width: 100%;
+  max-width: 360px;
+  background: var(--bg-muted);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 0.4rem;
+}
+
+.blueprint-draft-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.draft-solid-layer {
+  opacity: 0;
+  transform-origin: center;
+  animation: blueprintSolidReveal 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.draft-laser-beam {
+  transform: translateY(0);
+  animation: blueprintLaserScan 1.05s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes blueprintLaserScan {
+  0% {
+    transform: translateY(0px);
+    opacity: 0.95;
+  }
+  85% {
+    transform: translateY(138px);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateY(146px);
+    opacity: 0;
+  }
+}
+
+@keyframes blueprintSolidReveal {
+  0% {
+    opacity: 0.08;
+    transform: scale(0.985);
+  }
+  50% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.blueprint-loader-title {
+  margin: 0.2rem 0 0;
+  font-size: 1.35rem;
+  color: var(--text-main);
+}
+
+.blueprint-loader-step {
+  margin: 0;
+  font: 600 0.78rem system-ui, sans-serif;
+  color: var(--accent-color);
+}
+
+.blueprint-progress-track {
+  width: 100%;
+  height: 7px;
+  background: var(--bg-tag);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 0.35rem;
+}
+
+.blueprint-progress-fill {
+  width: 100%;
+  height: 100%;
+  background: var(--accent-color);
+  transform-origin: left center;
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .draft-solid-layer,
+  .draft-laser-beam {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .blueprint-progress-fill {
+    transition: none !important;
+  }
+}
+
+/* ── Legal Modal & Standalone Legal Pages (/privacy & /terms) ── */
+.legal-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(22, 28, 27, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem;
+  z-index: 9999;
+}
+
+.legal-modal-dialog {
+  width: 100%;
+  max-width: 640px;
+  max-height: 88vh;
+  overflow-y: auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+  padding: 1.5rem 1.8rem;
+}
+
+.legal-modal-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.9rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.legal-page-wrapper {
+  min-height: 100vh;
+  padding: 2.5rem 1.2rem;
+  background: var(--bg-parchment);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.legal-page-card {
+  width: 100%;
+  max-width: 760px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: var(--shadow-offset);
+  padding: 2rem 2.4rem;
+}
+
+.legal-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.legal-back-link {
+  font: 700 0.8rem system-ui, sans-serif;
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+.legal-back-link:hover {
+  text-decoration: underline;
+}
+
+.legal-page-switch {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.legal-doc-title {
+  margin: 0.3rem 0 0.9rem;
+  font-size: 1.65rem;
+}
+
+.legal-todo-banner {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  color: #92400e;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.1rem;
+  font: 0.82rem/1.45 system-ui, sans-serif;
+}
+
+.legal-todo-banner p {
+  margin: 0.25rem 0 0;
+}
+
+.legal-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  font: 0.88rem/1.55 system-ui, sans-serif;
+  color: var(--text-main);
+}
+
+.legal-sections h3 {
+  margin: 0 0 0.25rem;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.legal-sections p {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.legal-sections code {
+  background: var(--bg-tag);
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  color: #92400e;
+}
+
+/* ── Studio Shell, Suspense Fallback & Persistent Compliance Footer ── */
+.studio-app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.studio-app-shell main {
+  flex: 1;
+}
+
+.route-suspense-fallback {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 360px;
+}
+
+.route-suspense-pill {
+  font: 700 0.75rem system-ui, sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-color);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  box-shadow: var(--shadow-offset);
+}
+
+.studio-compliance-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.75rem 2.5rem;
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-muted);
+  font: 0.74rem system-ui, sans-serif;
+  color: var(--text-muted);
+}
+
+.studio-footer-links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.studio-footer-links a {
+  color: var(--accent-color);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.studio-footer-links a:hover {
+  text-decoration: underline;
+}
+

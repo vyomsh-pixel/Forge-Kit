@@ -249,6 +249,13 @@ export default function CodeModifier() {
                   Desktop
                 </button>
                 <button 
+                  className={`viewport-btn ${viewport === 'tablet' ? 'active' : ''}`} 
+                  onClick={() => setViewport('tablet')} 
+                  title="Tablet"
+                >
+                  Tablet
+                </button>
+                <button 
                   className={`viewport-btn ${viewport === 'mobile' ? 'active' : ''}`} 
                   onClick={() => setViewport('mobile')} 
                   title="Mobile"

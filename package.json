@@ -4,14 +4,15 @@
   "private": true,
   "description": "ForgeKit - AI UI Studio & Dynamic CMS Engine",
   "main": "backend/server.js",
+  "type": "module",
   "scripts": {
     "build": "cd frontend && npm install && npm run build && cp -r dist ../public",
     "vercel-build": "cd frontend && npm install && npm run build && cp -r dist ../public",
-    "start": "node backend/server.js"
+    "start": "node backend/server.js",
+    "test": "node --test backend/test-api.mjs"
   },
   "dependencies": {
     "axios": "^1.19.0",
-    "body-parser": "^2.3.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",

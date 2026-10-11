@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router';
 import { generateFromPrompt, updatePromptUI, evaluateUI } from '../services/api';
-import PreviewSandbox from '../components/PreviewSandbox';
+import PreviewSandbox, { buildPreviewHTML } from '../components/PreviewSandbox';
 import CodeViewer from '../components/CodeViewer';
 import VisualElementEditor from '../components/VisualElementEditor';
 import MLAuditModal from '../components/MLAuditModal';
@@ -86,7 +87,7 @@ export default function PromptStudio() {
           pageName: 'Home',
           jsx: data.jsx,
           css: data.css || '',
-          elements: data.elementIds?.map(id => ({ fieldId: id, elementName: 'Field #' + id, content: '', contentType: 'Text' })) || []
+          elements: data.elements || data.elementIds?.map(id => ({ fieldId: id, elementName: 'Field #' + id, content: '', contentType: 'Text' })) || []
         }));
       } catch {}
       triggerEvaluation(data.jsx, data.css || '');
@@ -147,34 +148,18 @@ export default function PromptStudio() {
     a.href = url;
     a.download = `GeneratedComponent_${sectionId || 'forgekit'}.jsx`;
     a.click();
+    URL.revokeObjectURL(url);
   };
 
   const downloadHTML = () => {
-    const htmlCode = `<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>${css}</style>
-</head>
-<body class="bg-gray-50">
-  <div id="root"></div>
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script type="text/babel">
-${jsx}
-ReactDOM.createRoot(document.getElementById("root")).render(<GeneratedPage />);
-  </script>
-</body>
-</html>`;
+    const htmlCode = buildPreviewHTML(jsx, css);
     const blob = new Blob([htmlCode], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
     a.download = `ForgeKit_Standalone_${sectionId || 'page'}.html`;
     a.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -332,14 +317,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(<GeneratedPage />);
                 </div>
               )}
               {sectionId && (
-                <a 
-                  href={`/cms?sectionId=${sectionId}`}
+                <Link 
+                  to={`/cms?sectionId=${sectionId}`}
                   className="preset-chip" 
                   style={{ background: '#2a6f6f', color: '#fff', textDecoration: 'none', border: 'none' }}
                   title="Open this generated section in CMS Studio"
                 >
                   CMS Studio
-                </a>
+                </Link>
               )}
               <button 
                 type="button"
@@ -357,6 +342,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(<GeneratedPage />);
                   title="Desktop"
                 >
                   Desktop
+                </button>
+                <button 
+                  className={`viewport-btn ${viewport === 'tablet' ? 'active' : ''}`} 
+                  onClick={() => setViewport('tablet')} 
+                  title="Tablet"
+                >
+                  Tablet
                 </button>
                 <button 
                   className={`viewport-btn ${viewport === 'mobile' ? 'active' : ''}`} 
