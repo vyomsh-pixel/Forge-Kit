@@ -50,7 +50,9 @@ mongoose.set("bufferCommands", false);
 
 const mongoUri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/forgekit";
 
-if (!process.env.NODE_TEST_CONTEXT && process.env.NODE_ENV !== "test") {
+const isMain = Boolean(process.argv[1] && path.basename(process.argv[1]) === 'server.js');
+
+if (isMain && !process.env.VERCEL && !process.env.NODE_TEST_CONTEXT && process.env.NODE_ENV !== "test") {
   mongoose.connect(mongoUri, { serverSelectionTimeoutMS: 5000 })
     .then(() => {
       console.log("🟢 Connected to MongoDB successfully!");
@@ -1011,7 +1013,7 @@ if (fs.existsSync(frontendDist)) {
   });
 }
 
-if (!process.env.VERCEL && !process.env.NODE_TEST_CONTEXT && process.env.NODE_ENV !== "test") {
+if (isMain && !process.env.VERCEL && !process.env.NODE_TEST_CONTEXT && process.env.NODE_ENV !== "test") {
   app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });
